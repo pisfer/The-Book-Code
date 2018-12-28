@@ -1,7 +1,7 @@
 import re
 
-file = open("data\in.bc", "rb")
-out_file = open("data\output.bc", "w")
+file = open("in.bc", "rb")
+out_file = open("output.bc", "w")
 ss = file.readline().decode("utf-8")
 costa = file.tell()
 t = re.match(r'<intype="bc" wat="(?P<text>[\w\d]+)">', ss)
