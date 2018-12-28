@@ -4,7 +4,7 @@ file = open("in.bc", "rb")
 out_file = open("output.bc", "w")
 ss = file.readline().decode("utf-8")
 costa = file.tell()
-t = re.match(r'<intype="bc" wat="(?P<text>[\w\d]+)">', ss)
+t = re.match(r'<intype="bc" wat="(?P<text>[\w\d\s]+)">', ss)
 
 page = "12"
 row = 0
@@ -18,7 +18,7 @@ if t:
         print(code, "----")
         for line in file.readlines():
             row += 1
-            for word in list(line.decode().translate({ord("\r"): None, ord("\n"): None})):
+            for word in list(line.decode().translate({ord("\r"): None, ord("\n"): None}).replace(" ", "")):
                 place += 1
                 aword = word + page + "." + str(row) + "." + str(place) + ";"
                 # print(word, code, word == code, aword if word == code else "None")
