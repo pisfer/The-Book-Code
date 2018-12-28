@@ -1,7 +1,7 @@
 import re
 
-file = open("in.bc", "rb")
-out_file = open("output.bc", "w")
+file = open("data\in.bc", "rb")
+out_file = open("data\output.bc", "w")
 ss = file.readline().decode("utf-8")
 costa = file.tell()
 t = re.match(r'<intype="bc" wat="(?P<text>[\w\d\s]+)">', ss)
@@ -18,7 +18,7 @@ if t:
         print(code, "----")
         for line in file.readlines():
             row += 1
-            for word in list(line.decode().translate({ord("\r"): None, ord("\n"): None}).replace(" ", "")):
+            for word in list(line.decode().translate({ord("\r"): None, ord("\n"): None})):
                 place += 1
                 aword = word + page + "." + str(row) + "." + str(place) + ";"
                 # print(word, code, word == code, aword if word == code else "None")
@@ -34,10 +34,17 @@ if t:
         row = 0
 
 file.seek(costa)
-print(data)
-for u in data: output += u[1::] + " "
+
+for u in data:
+    if u[0] == " ":
+        print("yes")
+    else:
+        output += u[1::] + " "
+output = output[::2]
+print(output)
 out_file.write('<intype="bc" code="' + output + '">')
 out_file.write("\n")
+
 for l in file.readlines():
     out_file.write(l.decode().translate({ord("\r"): None}))
 out_file.close()
