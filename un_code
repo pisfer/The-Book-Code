@@ -1,0 +1,20 @@
+import re
+
+file = open("data\output.bc", "rb")
+
+for_read = file.readline().decode()
+print(for_read)
+next = re.match(r'<intype="bc" code="(?P<text>[\w\d\s.;]+)">', for_read)
+
+data = {}
+
+if next:
+    order = next.group("text")
+    tip = re.findall(r"(?P<page>\d+)+\.(?P<row>\d+)+\.(?P<place>\d+)+;", order)
+    for i in tip:
+        ui = data.get(i[1],False)
+        if ui:
+            data[i[1]].append(i)
+        else:
+            data[i[1]] = [i]
+print(data)
