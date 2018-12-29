@@ -7,14 +7,29 @@ print(for_read)
 next = re.match(r'<intype="bc" code="(?P<text>[\w\d\s.;]+)">', for_read)
 
 data = {}
+word = []
+row = 0
 
+# simple classifier
 if next:
     order = next.group("text")
     tip = re.findall(r"(?P<page>\d+)+\.(?P<row>\d+)+\.(?P<place>\d+)+;", order)
     for i in tip:
-        ui = data.get(i[1],False)
+        ui = data.get(i[1], False)
         if ui:
             data[i[1]].append(i)
         else:
             data[i[1]] = [i]
-print(data)
+print("====")
+for line in file.readlines():
+    row += 1
+    sup = line.decode("windows-1251").translate({ord("\r"): None, ord("\n"): None})
+    try:
+        print(int(data[str(row)][0][2]))
+        for k in data[str(row)]:
+            word.append(line.decode("windows-1251")[
+                        int(k[2])-1:int(k[2])
+                        ])
+    except KeyError:
+        print("no")
+print(word)
