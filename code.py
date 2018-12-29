@@ -39,8 +39,8 @@ for u in data:
     if u[0] == " ":
         print("yes")
     else:
-        output += u[1::] + " "
-output = output[::2]
+        output += u[1:] + " "
+output = output
 print(output)
 out_file.write('<intype="bc" code="' + output + '">')
 out_file.write("\n")
